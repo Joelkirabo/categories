@@ -7,7 +7,7 @@ import { db } from "@/lib/db"
 export async function savecategory(data:FormData){
     const{categoryname, slug} = data;    
 
-    const existingcategory = await db.Category.findUnique({
+    const existingcategory = await db.category.findUnique({
         where:{slug:slug}
 
         
@@ -19,7 +19,7 @@ export async function savecategory(data:FormData){
             error: 'Category already exists'
         }
     }else{        
-        await db.Category.create({
+        await db.category.create({
             data:{
                 categoryname,
                 slug
