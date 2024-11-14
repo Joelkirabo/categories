@@ -1,7 +1,7 @@
 "use server"
 
 import { FormData } from "@/app/new/page"
-import { db } from "@/lib/db"
+import db from "@/lib/db"
 
 
 export async function savecategory(data:FormData){
