@@ -37,7 +37,7 @@ export async function savecategory(data:FormData){
 
 
 export async function getdata(){
-    const categories = await db.Category.findMany() || [];
+    const categories = await db.category.findMany() || [];
     return categories;
 }
 
