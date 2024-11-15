@@ -2,6 +2,8 @@
 
 import {useForm} from 'react-hook-form';
 import { savecategory } from '@/actions/actions';
+import { Info} from "lucide-react";
+import { useState } from "react";
 
 import { useRouter } from 'next/navigation';
 
@@ -12,24 +14,30 @@ export type FormData={
 
 export default function categoryForm(){
     const router = useRouter()    
+
+    const [errormessage, seterrormessage] = useState('')
+
+    const [show, setShow] = useState(false);
     
     const {register,reset, handleSubmit, formState:{errors}} =useForm<FormData>();
 
     async function formsubmit(data:FormData){  
-        data.categoryname.toLowerCase()
+        data.categoryname= data.categoryname.toLowerCase()
         data.slug = data.categoryname.toLowerCase().split(" ").join("-")
         const returns = await savecategory(data);
         const {success, error} = returns;
 
         if(!success){
             if(error === 'Category already exists'){
-                alert(error)
+                setShow(true)
+                seterrormessage(error)
                 
             }
         }
         if(success){
             if(error === 'Category added successfully'){
-                alert(error)
+                setShow(true)
+                seterrormessage(error)
                 
             }
             
@@ -46,7 +54,20 @@ export default function categoryForm(){
                         {errors.categoryname? <div className='text-red-500 text-xs mt-4'>{errors.categoryname.message} </div>: ""}
                     </div>                
              
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Category</button>
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Category
+
+                    <div className={`${show?"p-10 bg-black/10 fixed inset-0 flex justify-center":"hidden"} `}>
+                            
+                            
+                            <div className="bg-gray-400 z-50 p-10 rounded-md absolute flex flex-col items-center justify-center">
+                                <Info className="text-red-500" size={40}/> 
+                                <p>{errormessage}</p>
+                               
+                                
+                            </div>
+                        </div>
+
+                    </button>
                     </form>
 
         </div>

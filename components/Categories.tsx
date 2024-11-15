@@ -17,7 +17,7 @@ export default async function Home() {
                         {
                             categories.map((category,i)=>{
                                 return(
-                                    <div className="capitalize" key={i}>{category.categoryname}</div>
+                                    <div className="capitalize lowercase" key={i}>{category.categoryname}</div>
                                 )
                             })
                         }            
